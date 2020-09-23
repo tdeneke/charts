@@ -9,7 +9,13 @@ project:
 labs:
   image: pharmbio/pharmbio-notebook:tf-2.1.0-gpu
   #image: jupyter/minimal-notebook:latest
-
+  resources:
+    requests:
+      CPU: 500m
+      memory: 1Gi
+    limits:
+      CPU: 500m
+      memory: 1Gi
   gpu:
     enabled: false
 
