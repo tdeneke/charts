@@ -50,6 +50,10 @@ spec:
         name: {{ .Release.Name }}-minio
         ports:
         - containerPort: 9000
+        lifecycle:
+          postStart:
+            exec:
+              command: ["/bin/sh", "-c", "mkdir /data/models /data/reports /data/dataset /data/deploy"]
         resources: {}
         volumeMounts:
         - mountPath: /data
