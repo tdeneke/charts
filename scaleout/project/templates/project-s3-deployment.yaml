@@ -53,7 +53,7 @@ spec:
         lifecycle:
           postStart:
             exec:
-              command: ["/bin/sh", "-c", "mkdir /data/models /data/reports /data/dataset /data/deploy"]
+              command: ["/bin/sh", "-c", "mkdir -p /data/models /data/reports /data/dataset /data/deploy"]
         resources: {}
         volumeMounts:
         - mountPath: /data
