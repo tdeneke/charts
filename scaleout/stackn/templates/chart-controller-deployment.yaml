@@ -10,7 +10,7 @@ metadata:
     name: {{ .Release.Name }}-chart-controller
   name: {{ .Release.Name }}-chart-controller
 spec:
-  replicas: 1
+  replicas: {{ .Values.chartcontroller.replicas | default 1 }}
   strategy: {}
   selector:
     matchLabels:
