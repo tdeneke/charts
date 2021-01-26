@@ -112,15 +112,15 @@ spec:
         - name: jupyterconf
           mountPath: /etc/jupyter/jupyter_notebook_config.py
           subPath: jupyter_notebook_config.py
-        #- name: stacknconfig
-        #  mountPath: /home/jovyan/.scaleout/
-        #- name: projectconfig
-        #  mountPath: /home/jovyan/.scaleout/stackn/projects/
-        #- name: userconfig
-        #  mountPath: /home/jovyan/.scaleout/stackn/
-        #  readOnly: true
-        #- name: cli-working-dir
-        #  mountPath: /home/.scaleout/
+        - name: stacknconfig
+          mountPath: /home/jovyan/.scaleout_bak/
+        - name: projectconfig
+          mountPath: /home/jovyan/.scaleout_bak/stackn/projects/
+        - name: userconfig
+          mountPath: /home/jovyan/.scaleout_bak/stackn/
+          readOnly: true
+        - name: cli-working-dir
+          mountPath: /home/.scaleout/
         {{- with .Values.extraVolumeMounts }}
         {{- tpl . $ | nindent 8 }}
         {{- end }}
