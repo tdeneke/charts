@@ -8,7 +8,7 @@ project:
   slug: slug
 labs:
   #image: pharmbio/pharmbio-notebook:tf-2.1.0-gpu
-  image: scaleoutsystems/scaleout-notebook:STACKN-181
+  image: scaleoutsystems/scaleout-notebook:eosc
   #image: jupyter/minimal-notebook:latest
 
   resources:
