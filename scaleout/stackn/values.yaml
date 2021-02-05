@@ -18,6 +18,9 @@ imagePullSecrets:
 storageClassName: microk8s-hostpath
 namespace: default
 
+celery:
+  replicas: 1
+
 studio:
   servicename: studio
   image: #tell which image to deploy for studio
