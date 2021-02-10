@@ -5,6 +5,7 @@ metadata:
   labels:
     io.kompose.service: {{ .Release.Name }}-project-files
   name: {{ .Values.name }}
+  namespace: {{ .Values.namespace }}
 spec:
   accessModes:
   - {{ .Values.accessModes }}
