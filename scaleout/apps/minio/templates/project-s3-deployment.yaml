@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.20.0 ()
+  creationTimestamp: null
+  labels:
+    io.kompose.service: {{ .Release.Name }}-minio
+    name: {{ .Release.Name }}-minio
+  name: {{ .Release.Name }}-minio
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      name: {{ .Release.Name }}-minio
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.20.0 ()
+      creationTimestamp: null
+      labels:
+        io.kompose.service: {{ .Release.Name }}-minio
+        name: {{ .Release.Name }}-minio
+    spec:
+      containers:
+      - args:
+        - server
+        - /home/stackn/{{ .Values.volumes }}
+        env:
+        - name: MINIO_ACCESS_KEY
+          value: {{ .Values.minio.accessKey }}
+        - name: MINIO_SECRET_KEY
+          value: {{ .Values.minio.secretKey }}
+        image: minio/minio:latest
+        livenessProbe:
+          exec:
+            command:
+            - curl
+            - -f
+            - http://{{ .Release.Name }}-minio:9000/minio/health/live
+          failureThreshold: 3
+          periodSeconds: 30
+          timeoutSeconds: 20
+        name: {{ .Release.Name }}-minio
+        ports:
+        - containerPort: 9000
+        resources: {}
+        volumeMounts:
+        {{- with .Values.extraVolumeMounts }}
+        {{- tpl . $ | nindent 8 }}
+        {{- end }}
+      hostname: {{ .Release.Name }}-minio
+      restartPolicy: Always
+      volumes:
+      {{- with .Values.extraVolumes }}
+      {{- tpl . $ | nindent 6 }}
+      {{- end }}
+status: {}

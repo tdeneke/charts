@@ -1,0 +1,8 @@
+namespace: default
+
+minio:
+
+  accessKey: accesskey
+  secretKey: secretkey
+
+

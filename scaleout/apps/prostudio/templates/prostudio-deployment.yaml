@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prosilico-deploy
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prosilico-deploy
+  template:
+    metadata:
+      labels:
+        app: prosilico-deploy
+        type: prostudio
+    spec:
+      containers:
+      - name: prostudio-node-app
+        image: scaleoutsystems/prostudio:latest
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 3000
+      - name: gatekeeper
+        image: {{ .Values.gatekeeper.image }}
+        imagePullPolicy: Always
+        args:
+          - --config=/etc/secrets/gatekeeper.yaml
+        ports:
+          - containerPort: 9090
+        volumeMounts:
+        - name: gatekeeper-config
+          mountPath: /etc/secrets/
+      volumes:
+      - name: gatekeeper-config
+        configMap:
+          name: {{ .Release.Name }}-gatekeeper-config

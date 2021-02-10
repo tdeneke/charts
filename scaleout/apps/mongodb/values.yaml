@@ -1,0 +1,5 @@
+namespace: default
+volumes: project-volume
+
+username: admin
+password: password

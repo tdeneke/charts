@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.appname }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.appname }}
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /metrics
+        # prometheus.io/port: "8501"
+      labels:
+        app: {{ .Values.appname }}
+        project: {{ .Values.project.name }}
+        type: lab
+    spec:
+    {{ if .Values.app.gpu.enabled }}
+      affinity:
+        {{ .Values.app.affinity | toYaml | nindent 8 | trim }}
+    {{ end }}
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      containers:
+      - name: gatekeeper
+        image: scaleoutsystems/gatekeeper:latest
+        imagePullPolicy: Always
+        args:
+          - --config=/etc/secrets/gatekeeper.yaml
+        ports:
+          - containerPort: 9090
+        volumeMounts:
+        - name: gatekeeper-config
+          mountPath: /etc/secrets/
+
+      - name: vscode
+        image: registry.local.stackn.dev/vscode:latest
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 1234
+        volumeMounts:
+        {{- with .Values.extraVolumeMounts }}
+        {{- tpl . $ | nindent 8 }}
+        {{- end }}
+      
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      volumes:
+      - name: gatekeeper-config
+        configMap:
+          name: {{ .Release.Name }}-gatekeeper-config
+      {{- with .Values.extraVolumes }}
+      {{- tpl . $ | nindent 6 }}
+      {{- end }}
