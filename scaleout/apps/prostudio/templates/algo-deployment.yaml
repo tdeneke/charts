@@ -1,40 +1,41 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-deploy
+  name: {{ .Release.Name }}-algo
   namespace: {{ .Values.namespace }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .Release.Name }}-prostudio
+      app: {{ .Release.Name }}-algo
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}-prostudio
-        type: prostudio
+        app: {{ .Release.Name }}-algo
+        type: prosilico
     spec:
       containers:
-      - name: prostudio
-        image: {{ .Values.prostudio.image }}
+      - name: algorithms
+        image: {{ .Values.algorithms.image }}
         imagePullPolicy: Always
         ports:
-          - containerPort: {{ .Values.prostudio.port }}
-        lifecycle:
-          postStart:
-            exec:
-              command: ["/bin/sh", "-c", echo 'var endpoint = "https://{{ .Release.Name }}-algo.{{ .Values.global.domain }}/predict/"' > /usr/share/nginx/html/config.js]
+          - containerPort: {{ .Values.algorithms.port }}
+        env:
+        {{- range $model := .Values.models }}  
+          - name: {{ $model.name }}
+            value: http://{{ $.Release.Name }}-{{ $model.name }}/api/v2/predict
+        {{- end }}
       - name: gatekeeper
         image: {{ .Values.gatekeeper.image }}
         imagePullPolicy: Always
         args:
           - --config=/etc/secrets/gatekeeper.yaml
         ports:
-          - containerPort: 9090
+          - containerPort: {{ .Values.gatekeeper.port }}
         volumeMounts:
         - name: gatekeeper-config
           mountPath: /etc/secrets/
       volumes:
       - name: gatekeeper-config
         configMap:
-          name: {{ .Release.Name }}-gatekeeper-config
+          name: {{ .Release.Name }}-algo-gk

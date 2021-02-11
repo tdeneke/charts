@@ -7,12 +7,21 @@ global:
 ingress:
   secretName: prod-ingress
 
+prostudio:
+  image: registry.local.stackn.dev/java-test:latest #scaleoutsystems/prostudio:latest
+  port: 80 #3000
+
 gatekeeper:
-  image: registry.local.stackn.dev/gatekeeper:latest
+  image: registry.local.stackn.dev/gatekeeper:latest #keycloak/keycloak-gatekeeper:latest #
   client_secret: 75ffdab1-605a-49a9-9544-4807072d0908
   client_id: wetty-test
   auth_endpoint: https://keycloak.local.stackn.dev/auth/realms
   skip_tls: 0
+  port: 9090
+
+algorithms:
+  image: registry.local.stackn.dev/algo:latest
+  port: 8501
 
 service_image: registry.local.stackn.dev/prosilico-model:latest
 
@@ -22,13 +31,13 @@ models:
   - type: regression
     name: fabs
   - type: regression
-    name: diss
+    name: fdiss
   - type: regression
     name: fu
   - type: regression
     name: fubrain
   - type: regression
-    name: renal2
+    name: renal
   - type: regression
     name: vss
   - type: classification

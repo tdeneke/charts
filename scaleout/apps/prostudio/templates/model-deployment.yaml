@@ -8,11 +8,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ $.Release.Name }}-models
+      app: {{ $.Release.Name }}-{{ $models.name }}
   template:
     metadata:
       labels:
-        app: {{ $.Release.Name }}-models
+        app: {{ $.Release.Name }}-{{ $models.name }}
         type: prostudio-models
     spec:
       containers:
