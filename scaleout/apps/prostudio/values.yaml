@@ -8,9 +8,40 @@ ingress:
   secretName: prod-ingress
 
 gatekeeper:
-  image: registry.local.stackn.dev/gatekeeper:latest #registry.scilifelab.stackn.dev/keycloak-gatekeeper:latest #keycloak/keycloak-gatekeeper:latest
-  realm: STACKn
+  image: registry.local.stackn.dev/gatekeeper:latest
   client_secret: 75ffdab1-605a-49a9-9544-4807072d0908
   client_id: wetty-test
   auth_endpoint: https://keycloak.local.stackn.dev/auth/realms
   skip_tls: 0
+
+service_image: registry.local.stackn.dev/prosilico-model:latest
+
+models:
+  - type: regression
+    name: clint
+  - type: regression
+    name: fabs
+  - type: regression
+    name: diss
+  - type: regression
+    name: fu
+  - type: regression
+    name: fubrain
+  - type: regression
+    name: renal2
+  - type: regression
+    name: vss
+  - type: classification
+    name: bcrp
+  - type: classification
+    name: bile
+  - type: classification
+    name: cyp2c9
+  - type: classification
+    name: cyp2d6
+  - type: classification
+    name: cyp3a4
+  - type: classification
+    name: mdr1
+  - type: classification
+    name: mrp2

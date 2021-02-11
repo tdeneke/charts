@@ -1,27 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-deploy
+  name: {{ .Values.appname }}
   namespace: {{ .Values.namespace }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: prosilico-deploy
+      app: {{ .Values.appname }}
   template:
     metadata:
       labels:
-        app: prosilico-deploy
-        type: prostudio
+        app: {{ .Values.appname }}
+        project: {{ .Values.project.name }}
+        type: pacman
     spec:
       containers:
-      - name: prostudio-node-app
-        image: scaleoutsystems/prostudio:latest
-        imagePullPolicy: Always
-        ports:
-          - containerPort: 3000
       - name: gatekeeper
-        image: {{ .Values.gatekeeper.image }}
+        image: scaleoutsystems/gatekeeper:latest
         imagePullPolicy: Always
         args:
           - --config=/etc/secrets/gatekeeper.yaml
@@ -30,6 +26,12 @@ spec:
         volumeMounts:
         - name: gatekeeper-config
           mountPath: /etc/secrets/
+
+      - name: tetris
+        image: registry.local.stackn.dev/pacman:latest
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 80
       volumes:
       - name: gatekeeper-config
         configMap:

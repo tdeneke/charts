@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.appname }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.appname }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appname }}
+        project: {{ .Values.project.name }}
+        type: tetris
+    spec:
+      containers:
+      - name: gatekeeper
+        image: scaleoutsystems/gatekeeper:latest
+        imagePullPolicy: Always
+        args:
+          - --config=/etc/secrets/gatekeeper.yaml
+        ports:
+          - containerPort: 9090
+        volumeMounts:
+        - name: gatekeeper-config
+          mountPath: /etc/secrets/
+
+      - name: mongo-express
+        image: mongo-express:latest
+        env:
+        - name: ME_CONFIG_MONGODB_SERVER
+          value: "{{ .Values.mongodb.server }}"
+        - name: ME_CONFIG_MONGODB_PORT
+          value: "{{ .Values.mongodb.port }}"
+        - name: ME_CONFIG_MONGODB_ENABLE_ADMIN
+          value: "true"
+        - name: ME_CONFIG_MONGODB_ADMINUSERNAME
+          value: "{{ .Values.mongodb.username }}"
+        - name: ME_CONFIG_MONGODB_ADMINPASSWORD
+          value: "{{ .Values.mongodb.password }}"
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 8081
+      volumes:
+      - name: gatekeeper-config
+        configMap:
+          name: {{ .Release.Name }}-gatekeeper-config

@@ -1,0 +1,32 @@
+{{- range $models := .Values.models }}  
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $.Release.Name }}-{{ $models.name }}
+  namespace: {{ $.Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ $.Release.Name }}-models
+  template:
+    metadata:
+      labels:
+        app: {{ $.Release.Name }}-models
+        type: prostudio-models
+    spec:
+      containers:
+      - name: {{ $models.name }}
+        image: {{ $.Values.service_image }}
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 8080
+        env:
+          - name: MODEL_FILE
+            value: "/models/{{ $models.name }}.jar"
+          - name: LICENSE_FILE
+            value: "/models/cpsign1x-scaleout.license"
+          - name: SERVICE_TYPE
+            value: "cp_{{ $models.type }}"
+---
+{{- end }}
