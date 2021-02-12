@@ -25,8 +25,16 @@ spec:
           - name: MODEL_FILE
             value: "/models/{{ $models.name }}.jar"
           - name: LICENSE_FILE
-            value: "/models/cpsign1x-scaleout.license"
+            value: "/license/cpsign.license"
           - name: SERVICE_TYPE
             value: "cp_{{ $models.type }}"
+        volumeMounts:
+        - name: license
+          mountPath: "/license"
+          readOnly: true
+      volumes:
+      - name: license
+        secret:
+          secretName: {{ $.Release.Name }}-license
 ---
 {{- end }}
