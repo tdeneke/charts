@@ -8,8 +8,8 @@ ingress:
   secretName: prod-ingress
 
 prostudio:
-  image: registry.local.stackn.dev/java-test:latest #scaleoutsystems/prostudio:latest
-  port: 80 #3000
+  image: registry.local.stackn.dev/prostudio:latest #registry.local.stackn.dev/java-test:latest #
+  port: 3000 #80
 
 gatekeeper:
   image: registry.local.stackn.dev/gatekeeper:latest #keycloak/keycloak-gatekeeper:latest #

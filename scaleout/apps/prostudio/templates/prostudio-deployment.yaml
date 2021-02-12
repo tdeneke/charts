@@ -20,10 +20,6 @@ spec:
         imagePullPolicy: Always
         ports:
           - containerPort: {{ .Values.prostudio.port }}
-        lifecycle:
-          postStart:
-            exec:
-              command: ["/bin/sh", "-c", echo 'var endpoint = "https://{{ .Release.Name }}-algo.{{ .Values.global.domain }}/predict/"' > /usr/share/nginx/html/config.js]
       - name: gatekeeper
         image: {{ .Values.gatekeeper.image }}
         imagePullPolicy: Always
