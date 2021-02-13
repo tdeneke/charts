@@ -77,9 +77,9 @@ spec:
         securityContext:
           allowPrivilegeEscalation: true
         volumeMounts:
-        {{- range $key, $value := .Values.volumes }}
+        {{- range $key, $value := .Values.apps.volume }}
         - name: {{ $key }}
-          mountPath: /home/stackn/{{ $value.name }}
+          mountPath: /home/stackn/{{ $key }}
         {{- end }}
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
@@ -87,9 +87,9 @@ spec:
       - name: gatekeeper-config
         configMap:
           name: {{ .Release.Name }}-gatekeeper-config
-      {{- range $key, $value := .Values.volumes }}
+      {{- range $key, $value := .Values.apps.volume }}
       - name: {{ $key }}
         persistentVolumeClaim:
-          claimName: {{ $value.claim }}
+          claimName: {{ $value.release }}
       {{- end }}
 

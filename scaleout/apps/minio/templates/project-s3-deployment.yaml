@@ -29,7 +29,7 @@ spec:
     spec:
       containers:
       - args:
-        {{- range $key, $value := .Values.volumes }}
+        {{- range $key, $value := .Values.apps.volume }}
         - server
         - /home/stackn/{{ $key }}
         {{- end }}
@@ -53,16 +53,16 @@ spec:
         - containerPort: 9000
         resources: {}
         volumeMounts:
-        {{- range $key, $value := .Values.volumes }}
+        {{- range $key, $value := .Values.apps.volume }}
         - name: {{ $key }}
-          mountPath: /home/stackn/{{ $value.name }}
+          mountPath: /home/stackn/{{ $key }}
         {{- end }}
       hostname: {{ .Release.Name }}-minio
       restartPolicy: Always
       volumes:
-      {{- range $key, $value := .Values.volumes }}
+      {{- range $key, $value := .Values.apps.volume }}
       - name: {{ $key }}
         persistentVolumeClaim:
-          claimName: {{ $value.claim }}
+          claimName: {{ $value.release }}
       {{- end }}
 status: {}

@@ -29,7 +29,7 @@ spec:
       - image: mongo:3-xenial
         name: {{ .Release.Name }}
         args:
-          {{- range $key, $value := .Values.volumes }}
+          {{- range $key, $value := .Values.apps.volume }}
           - --dbpath=/home/stackn/{{ $key }}
           {{- end }}
         env:
@@ -41,9 +41,9 @@ spec:
         - containerPort: 27017
         resources: {}
         volumeMounts:
-        {{- range $key, $value := .Values.volumes }}
+        {{- range $key, $value := .Values.apps.volume }}
         - name: {{ $key }}
-          mountPath: /home/stackn/{{ $value.name }}
+          mountPath: /home/stackn/{{ $key }}
         {{- end }}
         # {{- with .Values.extraVolumeMounts }}
         # {{- tpl . $ | nindent 8 }}
@@ -51,10 +51,10 @@ spec:
       hostname: {{ .Release.Name }}
       restartPolicy: Always
       volumes:
-      {{- range $key, $value := .Values.volumes }}
+      {{- range $key, $value := .Values.apps.volume }}
       - name: {{ $key }}
         persistentVolumeClaim:
-          claimName: {{ $value.claim }}
+          claimName: {{ $value.release }}
       {{- end }}
       # {{- with .Values.extraVolumes }}
       # {{- tpl . $ | nindent 6 }}
