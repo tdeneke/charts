@@ -29,13 +29,15 @@ spec:
     spec:
       containers:
       - args:
+        {{- range $key, $value := .Values.volumes }}
         - server
-        - /home/stackn/{{ .Values.volumes }}
+        - /home/stackn/{{ $key }}
+        {{- end }}
         env:
         - name: MINIO_ACCESS_KEY
-          value: {{ .Values.minio.accessKey }}
+          value: {{ .Values.credentials.access_key }}
         - name: MINIO_SECRET_KEY
-          value: {{ .Values.minio.secretKey }}
+          value: {{ .Values.credentials.secret_key }}
         image: minio/minio:latest
         livenessProbe:
           exec:
@@ -51,13 +53,16 @@ spec:
         - containerPort: 9000
         resources: {}
         volumeMounts:
-        {{- with .Values.extraVolumeMounts }}
-        {{- tpl . $ | nindent 8 }}
+        {{- range $key, $value := .Values.volumes }}
+        - name: {{ $key }}
+          mountPath: /home/stackn/{{ $value.name }}
         {{- end }}
       hostname: {{ .Release.Name }}-minio
       restartPolicy: Always
       volumes:
-      {{- with .Values.extraVolumes }}
-      {{- tpl . $ | nindent 6 }}
+      {{- range $key, $value := .Values.volumes }}
+      - name: {{ $key }}
+        persistentVolumeClaim:
+          claimName: {{ $value.claim }}
       {{- end }}
 status: {}

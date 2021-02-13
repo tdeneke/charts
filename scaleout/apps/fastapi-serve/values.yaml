@@ -5,11 +5,11 @@ visibility: private
 
 resources:
   limits:
-    cpu: 1000
-    memory: 4096
+    cpu: 1000m
+    memory: 4Gi
   requests:
-    cpu: 700
-    memory: 2048
+    cpu: 700m
+    memory: 2Gi
 
 global:
   domain: global.domain
@@ -34,7 +34,7 @@ deployment:
 context:
   image: context-image
 
-models:
+model:
   name: name
   version: version
   release_type: release_type

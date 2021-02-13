@@ -70,11 +70,11 @@ spec:
       - name: serve
         resources:
           limits:
-            cpu: {{ .Values.resources.limits.cpu }}m
-            memory: {{ .Values.resources.limits.memory }}Mi
+            cpu: {{ .Values.resources.limits.cpu }}
+            memory: {{ .Values.resources.limits.memory }}
           requests:
-            cpu: {{ .Values.resources.requests.cpu }}m
-            memory: {{ .Values.resources.requests.memory }}Mi
+            cpu: {{ .Values.resources.requests.cpu }}
+            memory: {{ .Values.resources.requests.memory }}
         volumeMounts:
         - name: model-vol
           mountPath: /model
@@ -83,17 +83,17 @@ spec:
         {{- end }}
         env:
           - name: S3_ACCESS_KEY_ID
-            value: {{ .Values.models.access_key }}
+            value: {{ .Values.model.access_key }}
           - name: S3_SECRET_ACCESS_KEY
-            value: {{ .Values.models.secret_key }}
+            value: {{ .Values.model.secret_key }}
           - name: AWS_REGION
             value: us-east-1
           - name: S3_ENDPOINT
             value: http://{{ .Values.project.slug }}-minio:9000
           - name: STACKN_MODEL_BUCKET
-            value: {{ .Values.models.bucket }}
+            value: {{ .Values.model.bucket }}
           - name: STACKN_MODEL_FILE
-            value: {{ .Values.models.obj }}
+            value: {{ .Values.model.obj }}
           {{- with .Values.extraEnv }}
           {{- tpl . $ | nindent 10 }}
           {{- end }}

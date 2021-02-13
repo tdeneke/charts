@@ -57,14 +57,14 @@ spec:
         imagePullPolicy: Always
         resources:
           requests:
-            memory: {{ .Values.app.resources.requests.memory | default "256Mi" }}
-            cpu: {{ .Values.app.resources.requests.cpu | default "200m" }}
+            memory: {{ .Values.resources.requests.mem | default "256Mi" }}
+            cpu: {{ .Values.resources.requests.cpu | default "200m" }}
             {{if .Values.app.gpu.enabled }}
             nvidia.com/gpu: "1"
             {{ end }}
           limits:
-            memory: {{ .Values.app.resources.limits.memory | default "256Mi" }}
-            cpu: {{ .Values.app.resources.limits.cpu | default "200m" }}
+            memory: {{ .Values.resources.limits.mem | default "256Mi" }}
+            cpu: {{ .Values.resources.limits.cpu | default "200m" }}
             {{if .Values.app.gpu.enabled }}
             nvidia.com/gpu: "1"
             {{ end }}
@@ -77,8 +77,9 @@ spec:
         securityContext:
           allowPrivilegeEscalation: true
         volumeMounts:
-        {{- with .Values.extraVolumeMounts }}
-        {{- tpl . $ | nindent 8 }}
+        {{- range $key, $value := .Values.volumes }}
+        - name: {{ $key }}
+          mountPath: /home/stackn/{{ $value.name }}
         {{- end }}
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
@@ -86,6 +87,9 @@ spec:
       - name: gatekeeper-config
         configMap:
           name: {{ .Release.Name }}-gatekeeper-config
-      {{- with .Values.extraVolumes }}
-      {{- tpl . $ | nindent 6 }}
+      {{- range $key, $value := .Values.volumes }}
+      - name: {{ $key }}
+        persistentVolumeClaim:
+          claimName: {{ $value.claim }}
       {{- end }}
+

@@ -24,11 +24,11 @@ spec:
         imagePullPolicy: Always
         resources:
           limits:
-            cpu: {{ .Values.scheduler.resources.limits.cpu }}
-            memory: {{ .Values.scheduler.resources.limits.memory }}
+            cpu: {{ .Values.scheduler.limits.cpu }}
+            memory: {{ .Values.scheduler.limits.memory }}
           requests:
-            cpu: {{ .Values.scheduler.resources.requests.cpu }}
-            memory: {{ .Values.scheduler.resources.requests.memory }}
+            cpu: {{ .Values.scheduler.requests.cpu }}
+            memory: {{ .Values.scheduler.requests.memory }}
         ports:
           - containerPort: {{ .Values.scheduler.port }}
 
