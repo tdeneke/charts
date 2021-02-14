@@ -50,7 +50,7 @@ model_card:
   path: model-card
 
 gatekeeper:
-  image: registry.local.stackn.dev/gatekeeper:latest
+  image: scaleoutsystems/gatekeeper:latest
   client_secret: 75ffdab1-605a-49a9-9544-4807072d0908
   client_id: wetty-test
   auth_endpoint: https://keycloak.local.stackn.dev/auth/realms

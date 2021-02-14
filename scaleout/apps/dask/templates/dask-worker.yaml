@@ -7,16 +7,16 @@ spec:
   replicas: {{ .Values.workers.replicas }}
   selector:
     matchLabels:
-      app: {{ .Release.Name }}-dask-worker
+      app: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}-dask-worker
+        app: {{ .Release.Name }}
         project: {{ .Values.project.slug }}
         type: dask-cluster
     spec:
       containers:
-      - name: {{ .Release.Name }}-worker
+      - name: worker
         image: daskdev/dask
         command: ["dask-worker", "tcp://{{ .Release.Name }}:{{ .Values.scheduler.port }}", "--worker-port={{ .Values.workers.port }}"]
         imagePullPolicy: Always

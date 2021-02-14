@@ -3,22 +3,21 @@ kind: Deployment
 metadata:
   name: {{ .Release.Name }}-dask-scheduler
   namespace: {{ .Values.namespace }}
-  labels:
-    app: {{ .Release.Name }}-dask-scheduler
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .Release.Name }}-dask-scheduler
+      target: {{ .Release.Name }}-dask-scheduler
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}-dask-scheduler
+        target: {{ .Release.Name }}-dask-scheduler
+        app: {{ .Release.Name }}
         project: {{ .Values.project.slug }}
         type: dask-cluster
     spec:
       containers:
-      - name: {{ .Release.Name }}-scheduler
+      - name: scheduler
         image: daskdev/dask
         command: ["dask-scheduler", "--port={{ .Values.scheduler.port }}"]
         imagePullPolicy: Always

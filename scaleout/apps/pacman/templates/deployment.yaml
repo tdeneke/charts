@@ -27,8 +27,8 @@ spec:
         - name: gatekeeper-config
           mountPath: /etc/secrets/
 
-      - name: tetris
-        image: registry.local.stackn.dev/pacman:latest
+      - name: pacman
+        image: scaleoutsystems/pacman:latest
         imagePullPolicy: Always
         ports:
           - containerPort: 80

@@ -40,7 +40,7 @@ spec:
           mountPath: /etc/secrets/
 
       - name: vscode
-        image: registry.local.stackn.dev/vscode:latest
+        image: scaleoutsystems/vscode:latest
         imagePullPolicy: Always
         ports:
           - containerPort: 1234

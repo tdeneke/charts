@@ -11,4 +11,4 @@ spec:
     targetPort: {{ .Values.scheduler.port }}
     protocol: TCP
   selector:
-    app: {{ .Release.Name }}-dask-scheduler
+    target: {{ .Release.Name }}-dask-scheduler
