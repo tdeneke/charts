@@ -9,7 +9,7 @@ ingress:
 
 prostudio:
   image: scaleoutsystems/prostudio:latest #registry.local.stackn.dev/java-test:latest #
-  port: 3000
+  port: 5000
   license: |
     # CPSign Standard 1.0 License (id: 1588058620015)
     e3ea7d9f18427ab8dc733392972b490b64c107d4bcf35bc2c570d387bab8
