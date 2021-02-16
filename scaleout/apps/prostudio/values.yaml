@@ -8,7 +8,7 @@ ingress:
   secretName: prod-ingress
 
 prostudio:
-  image: registry.local.stackn.dev/prostudio:latest #registry.local.stackn.dev/java-test:latest #
+  image: scaleoutsystems/prostudio:latest #registry.local.stackn.dev/java-test:latest #
   port: 3000
   license: |
     # CPSign Standard 1.0 License (id: 1588058620015)
@@ -47,10 +47,10 @@ gatekeeper:
   port: 9090
 
 algorithms:
-  image: registry.local.stackn.dev/algo:latest
+  image: scaleoutsystems/algo:latest
   port: 8501
 
-service_image: registry.local.stackn.dev/prosilico-model:latest
+service_image: scaleoutsystems/prosilico-model:latest
 
 models:
   - type: regression
