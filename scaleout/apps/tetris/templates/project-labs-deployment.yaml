@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   name: {{ .Values.appname }}
   namespace: {{ .Values.namespace }}
+  annotations:
+    reloader.stakater.com/auto: "true"
 spec:
   replicas: 1
   selector:
@@ -17,7 +19,7 @@ spec:
     spec:
       containers:
       - name: gatekeeper
-        image: scaleoutsystems/gatekeeper:latest
+        image: registry-dev.local.stackn.dev/gatekeeper:latest #scaleoutsystems/gatekeeper:latest
         imagePullPolicy: Always
         args:
           - --config=/etc/secrets/gatekeeper.yaml
