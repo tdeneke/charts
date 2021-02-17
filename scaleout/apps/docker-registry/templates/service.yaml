@@ -9,4 +9,4 @@ spec:
     targetPort: {{ .Values.gatekeeper.port }}
     protocol: TCP
   selector:
-    app: {{ .Release.Name }}
+    release: {{ .Release.Name }}

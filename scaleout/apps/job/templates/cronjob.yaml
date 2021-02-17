@@ -9,9 +9,11 @@ metadata:
   name: {{ .Release.Name }}
   namespace: {{ .Values.namespace }}
   labels:
-    app: {{ .Release.Name }}
+    release: {{ .Release.Name }}
+    app: job
     project: {{ .Values.project.slug }}
-    type: cronjob
+    type: app
+    pod: job
 spec:
 {{ if .Values.iscron }}
   schedule: "{{ .Values.job.schedule }}"
@@ -21,9 +23,11 @@ spec:
       template:
         metadata:
           labels:
-            app: {{ .Release.Name }}
+            release: {{ .Release.Name }}
+            app: job
             project: {{ .Values.project.slug }}
-            type: cronjob
+            type: app
+            pod: job
         spec:
           {{ if .Values.resources.gpu.enabled }}
           affinity:

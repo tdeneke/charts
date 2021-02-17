@@ -4,16 +4,20 @@ metadata:
   name: {{ .Release.Name }}
   namespace: {{ .Values.namespace }}
   labels:
-    app: {{ .Release.Name }}
+    release: {{ .Release.Name }}
+    app: fastapi-push-model
     project: {{ .Values.project.slug }}
-    type: job
+    type: fastapi-push-model
+    pod: fastapi-push-model
 spec:
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}
+        release: {{ .Release.Name }}
+        app: fastapi-push-model
         project: {{ .Values.project.slug }}
-        type: job
+        type: fastapi-push-model
+        pod: fastapi-push-model
     spec:
       restartPolicy: OnFailure
       containers:

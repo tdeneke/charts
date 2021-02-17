@@ -9,13 +9,19 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .Values.appname }}
+      release: {{ $.Release.Name }}
+      app: tetris
+      project: {{ $.Values.project.slug }}
+      type: app
+      pod: tetris
   template:
     metadata:
       labels:
-        app: {{ .Values.appname }}
-        project: {{ .Values.project.name }}
-        type: tetris
+        release: {{ $.Release.Name }}
+        app: tetris
+        project: {{ $.Values.project.slug }}
+        type: app
+        pod: tetris
     spec:
       containers:
       - name: gatekeeper

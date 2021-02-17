@@ -9,7 +9,11 @@ spec:
   replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
-      app: {{ .Values.appname }}
+      release: {{ .Release.Name }}
+      app: fastapi-serve
+      project: {{ .Values.project.slug }}
+      type: app
+      pod: fastapi-serve
   template:
     metadata:
       annotations:
@@ -17,9 +21,11 @@ spec:
         prometheus.io/path: /metrics
         prometheus.io/port: "8501"
       labels:
-        app: {{ .Values.appname }}
+        release: {{ .Release.Name }}
+        app: fastapi-serve
         project: {{ .Values.project.slug }}
-        type: deployment
+        type: app
+        pod: fastapi-serve
     spec:
       volumes:
       - name: rp-conf

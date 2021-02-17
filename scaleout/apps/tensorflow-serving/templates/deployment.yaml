@@ -3,15 +3,17 @@ kind: Deployment
 metadata:
   name: {{ .Values.appname }}
   namespace: {{ .Values.namespace }}
-  labels:
-    app: {{ .Values.appname }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
-      app: {{ .Values.appname }}
+      release: {{ $.Release.Name }}
+      app: tensorflow-serving
+      project: {{ $.Values.project.slug }}
+      type: app
+      pod: tensorflow-serving
   template:
     metadata:
       annotations:
@@ -19,9 +21,11 @@ spec:
         prometheus.io/path: /metrics
         prometheus.io/port: "8501"
       labels:
-        app: {{ .Values.appname }}
-        project: {{ .Values.project.slug }}
-        type: deployment
+        release: {{ $.Release.Name }}
+        app: tensorflow-serving
+        project: {{ $.Values.project.slug }}
+        type: app
+        pod: tensorflow-serving
     spec:
       volumes:
       - name: rp-conf

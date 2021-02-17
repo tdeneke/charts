@@ -10,6 +10,7 @@ spec:
     targetPort: 8080
     protocol: TCP
   selector:
-    app: {{ $.Release.Name }}-{{ $models.name }}
+    release: {{ $.Release.Name }}
+    pod: {{ $models.name }}
 ---
 {{- end }}

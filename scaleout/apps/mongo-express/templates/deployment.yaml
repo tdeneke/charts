@@ -7,13 +7,19 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .Values.appname }}
+      release: {{ .Release.Name }}
+      app: mongo-express
+      project: {{ .Values.project.slug }}
+      type: app
+      pod: mongo-express
   template:
     metadata:
       labels:
-        app: {{ .Values.appname }}
-        project: {{ .Values.project.name }}
-        type: tetris
+        release: {{ .Release.Name }}
+        app: mongo-express
+        project: {{ .Values.project.slug }}
+        type: app
+        pod: mongo-express
     spec:
       containers:
       - name: gatekeeper

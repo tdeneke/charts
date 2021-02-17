@@ -1,12 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: kompose convert
-    kompose.version: 1.20.0 ()
-  creationTimestamp: null
-  labels:
-    name: {{ .Release.Name }}
   name: {{ .Release.Name }}
   namespace: {{ .Values.namespace }}
 spec:
@@ -15,15 +9,18 @@ spec:
     type: Recreate
   selector:
     matchLabels:
-      name: {{ .Release.Name }}
+      release: {{ .Release.Name }}
+      app: mongodb
+      project: {{ .Values.project.slug }}
+      type: app
+      pod: mongodb
   template:
-    metadata:
-      annotations:
-        kompose.cmd: kompose convert
-        kompose.version: 1.20.0 ()
-      creationTimestamp: null
       labels:
-        name: {{ .Release.Name }}
+        release: {{ .Release.Name }}
+        app: mongodb
+        project: {{ .Values.project.slug }}
+        type: app
+        pod: mongodb
     spec:
       containers:
       - image: mongo:3-xenial

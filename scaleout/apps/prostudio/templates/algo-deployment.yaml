@@ -7,12 +7,19 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .Release.Name }}-algo
+      release: {{ .Release.Name }}
+      app: prosilico
+      project: {{ .Values.project.slug }}
+      type: app
+      pod: algo
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}-algo
-        type: prosilico
+        release: {{ .Release.Name }}
+        app: prosilico
+        project: {{ .Values.project.slug }}
+        type: app
+        pod: algo
     spec:
       containers:
       - name: algorithms

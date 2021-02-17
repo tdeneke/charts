@@ -1,13 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: kompose convert
-    kompose.version: 1.20.0 ()
-  creationTimestamp: null
-  labels:
-    io.kompose.service: {{ .Release.Name }}-minio
-    name: {{ .Release.Name }}-minio
   name: {{ .Release.Name }}-minio
   namespace: {{ .Values.namespace }}
 spec:
@@ -16,16 +9,19 @@ spec:
     type: Recreate
   selector:
     matchLabels:
-      name: {{ .Release.Name }}-minio
+      release: {{ .Release.Name }}
+      app: minio
+      project: {{ .Values.project.slug }}
+      type: app
+      pod: minio
   template:
     metadata:
-      annotations:
-        kompose.cmd: kompose convert
-        kompose.version: 1.20.0 ()
-      creationTimestamp: null
       labels:
-        io.kompose.service: {{ .Release.Name }}-minio
-        name: {{ .Release.Name }}-minio
+        release: {{ .Release.Name }}
+        app: minio
+        project: {{ .Values.project.slug }}
+        type: app
+        pod: minio
     spec:
       containers:
       - args:

@@ -7,13 +7,19 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .Values.appname }}
+      release: {{ .Release.Name }}
+      app: pacman
+      project: {{ .Values.project.slug }}
+      type: app
+      pod: pacman
   template:
     metadata:
       labels:
-        app: {{ .Values.appname }}
-        project: {{ .Values.project.name }}
-        type: pacman
+        release: {{ .Release.Name }}
+        app: pacman
+        project: {{ .Values.project.slug }}
+        type: app
+        pod: pacman
     spec:
       containers:
       - name: gatekeeper

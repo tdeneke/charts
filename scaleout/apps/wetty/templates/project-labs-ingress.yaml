@@ -3,10 +3,6 @@ kind: Ingress
 metadata:
   name: {{ .Release.Name }}-ingress
   namespace: {{ .Values.namespace }}
-  labels:
-    io.kompose.service: {{ .Release.Name }}-ingress
-  # annotations:
-  #   nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
     - host: {{ .Release.Name }}.{{ .Values.global.domain }}
@@ -14,7 +10,7 @@ spec:
         paths:
         - path: /
           backend:
-            serviceName: {{ .Release.Name }}-keycloak-proxy-svc
+            serviceName: {{ .Release.Name }}
             servicePort: 80
   tls:
     - secretName: {{ .Values.ingress.secretName }}

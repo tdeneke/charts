@@ -11,4 +11,5 @@ spec:
     targetPort: 9090
     protocol: TCP
   selector:
-    app: {{ .Release.Name }}-prostudio
+    release: {{ .Release.Name }}
+    pod: studio

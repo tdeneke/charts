@@ -3,18 +3,27 @@ kind: Deployment
 metadata:
   name: {{ .Release.Name }}-dask-scheduler
   namespace: {{ .Values.namespace }}
+  annotations:
+    reloader.stakater.com/auto: "true"
 spec:
   replicas: 1
   selector:
     matchLabels:
       target: {{ .Release.Name }}-dask-scheduler
+      release: {{ .Release.Name }}
+      app: dask-cluster
+      project: {{ .Values.project.slug }}
+      type: app
+      pod: scheduler
   template:
     metadata:
       labels:
         target: {{ .Release.Name }}-dask-scheduler
-        app: {{ .Release.Name }}
+        release: {{ .Release.Name }}
+        app: dask-cluster
         project: {{ .Values.project.slug }}
-        type: dask-cluster
+        type: app
+        pod: scheduler
     spec:
       containers:
       - name: scheduler
@@ -30,5 +39,3 @@ spec:
             memory: {{ .Values.scheduler.requests.memory }}
         ports:
           - containerPort: {{ .Values.scheduler.port }}
-
-        

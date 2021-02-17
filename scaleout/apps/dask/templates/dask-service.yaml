@@ -3,8 +3,6 @@ kind: Service
 metadata:
   name: {{ .Release.Name }}
   namespace: {{ .Values.namespace }}
-  labels:
-    run: {{ .Release.Name }}-dask-proxy-svc
 spec:
   ports:
   - port: {{ .Values.scheduler.port }}

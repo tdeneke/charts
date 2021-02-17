@@ -5,15 +5,25 @@ metadata:
     name: {{ .Release.Name }}
   name: {{ .Release.Name | replace "_" "-" }}
   namespace: {{ .Values.namespace }}
+  annotations:
+    reloader.stakater.com/auto: "true"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .Release.Name }}
+      app: docker-registry
+      release: {{ .Release.Name }}
+      project: {{ .Values.project.slug }}
+      type: app
+      pod: docker-registry
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}
+        app: docker-registry
+        release: {{ .Release.Name }}
+        project: {{ .Values.project.slug }}
+        type: app
+        pod: docker-registry
     spec:
       initContainers:
       - image: alpine:latest
@@ -49,7 +59,7 @@ spec:
           value: "TEST"
         - name: "NGINX_PROXY_HEADER_Authorization"
           value: "Basic {{ tpl ("{{ .Values.credentials.username }}:{{ .Values.credentials.password }}") . | b64enc }}"
-      - image: registry:latest
+      - image: registry:2
         name: registry
         env:
         - name: "REGISTRY_AUTH"

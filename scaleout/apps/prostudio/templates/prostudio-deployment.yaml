@@ -7,12 +7,19 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .Release.Name }}-prostudio
+      release: {{ .Release.Name }}
+      app: prosilico
+      project: {{ .Values.project.slug }}
+      type: app
+      pod: studio
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}-prostudio
-        type: prostudio
+        release: {{ .Release.Name }}
+        app: prosilico
+        project: {{ .Values.project.slug }}
+        type: app
+        pod: studio
     spec:
       containers:
       - name: prostudio
