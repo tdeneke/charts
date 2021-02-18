@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - name: gatekeeper
-        image: registry-dev.local.stackn.dev/gatekeeper:latest #scaleoutsystems/gatekeeper:latest
+        image: scaleoutsystems/gatekeeper:latest #registry-dev.local.stackn.dev/gatekeeper:latest #
         imagePullPolicy: Always
         args:
           - --config=/etc/secrets/gatekeeper.yaml

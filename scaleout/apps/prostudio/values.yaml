@@ -46,6 +46,9 @@ gatekeeper:
   skip_tls: 0
   port: 9090
 
+cplogd:
+  port: 8080
+
 algorithms:
   image: scaleoutsystems/algo:latest
   port: 8501

@@ -72,7 +72,16 @@ spec:
         volumeMounts:
         - name: model-vol
           mountPath: /models
+      shareProcessNamespace: true
       containers:
+      - name: shell
+        image: busybox
+        securityContext:
+          capabilities:
+            add:
+            - SYS_PTRACE
+        stdin: true
+        tty: true
       - name: gatekeeper
         image: {{ .Values.gatekeeper.image }}
         imagePullPolicy: Always
