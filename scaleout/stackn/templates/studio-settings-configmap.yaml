@@ -126,7 +126,8 @@ data:
         'deployments',
         'bootstrap_modal_forms',
         'studio_admin',
-        'apps'
+        'apps',
+        'django_celery_beat'
     ]
 
     REST_FRAMEWORK = {
