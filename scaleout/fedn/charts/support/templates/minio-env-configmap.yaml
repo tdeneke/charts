@@ -1,0 +1,13 @@
+apiVersion: v1
+data:
+  GET_HOSTS_FROM: dns
+  MINIO_ACCESS_KEY: fedn_admin
+  MINIO_HOST: minio
+  MINIO_PORT: "9000"
+  MINIO_SECRET_KEY: password
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: minio-minio-env
+  name: minio-env
