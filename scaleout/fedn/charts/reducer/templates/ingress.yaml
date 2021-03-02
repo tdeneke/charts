@@ -13,7 +13,7 @@ metadata:
   name: reducer-ingress
   namespace: default
 spec:
-  ingressClassName: "public"
+  #ingressClassName: "public"
   rules:
   - host: reducer.{{ .Values.domain }}
     http:

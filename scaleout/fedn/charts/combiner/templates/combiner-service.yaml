@@ -9,10 +9,12 @@ metadata:
     io.kompose.service: combiner
   name: combiner
 spec:
+  #type: NodePort
   ports:
     - name: grpc
-      port: 12080
-      #targetPort: 12080
+      port: 443
+      #nodePort: 30001
+      targetPort: 443
   selector:
     io.kompose.service: combiner
 status:

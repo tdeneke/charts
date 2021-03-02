@@ -35,7 +35,7 @@ spec:
           image: scaleoutsystems/fedn-combiner:develop
           name: combiner
           ports:
-            - containerPort: 12080
+            - containerPort: 443
           resources: {}
           volumeMounts:
             - mountPath: /config/settings.yaml
